@@ -1,6 +1,7 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -125,3 +126,5 @@
 @utility bg-panel { background-image: var(--gradient-card); }
 @utility shadow-glow { box-shadow: var(--shadow-glow); }
 @utility bg-metal { background-image: var(--gradient-metal); }
+
+@utility bg-logo-plate { background-color: oklch(0.98 0.005 250); }
