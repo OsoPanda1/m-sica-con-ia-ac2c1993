@@ -5,6 +5,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { findLesson, FREE_LESSON_ID, hasActiveAccess, type Block } from "@/lib/course";
 import { accountQuery } from "@/lib/use-account";
 import { Button } from "@/components/ui/button";
+import { LESSON_AUDIO } from "@/lib/audio";
+import { TutorChat } from "@/components/TutorChat";
+import { ALL_LESSONS } from "@/lib/course";
+import { Headphones } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/curso/$lessonId")({
   head: () => ({ meta: [{ title: "Lección — Sonora IA" }, { name: "description", content: "Lección del curso de música con IA." }] }),
@@ -70,12 +74,30 @@ function LessonPage() {
       <h1 className="mt-2 text-4xl font-bold">{lesson.title}</h1>
       {open ? (
         <>
+          {LESSON_AUDIO[lesson.id] && (
+            <div className="mt-6 rounded-2xl border border-border bg-panel p-4">
+              <p className="mb-2 flex items-center gap-2 text-sm font-semibold text-lavender"><Headphones className="h-4 w-4" /> Escucha esta lección</p>
+              <audio key={lesson.id} controls preload="metadata" src={LESSON_AUDIO[lesson.id]} className="w-full" />
+            </div>
+          )}
           <div className="mt-8 space-y-5">{lesson.blocks.map((b, i) => <BlockView key={i} b={b} />)}</div>
           <Button variant={done ? "glass" : "hero"} className="mt-10" onClick={toggle}>{done ? "Marcar como pendiente" : "Marcar como completada"}</Button>
+          <NextLink id={lesson.id} />
+          <section className="mt-12">
+            <h2 className="mb-3 text-2xl font-bold">¿Dudas? Pregúntale a tu tutora</h2>
+            <TutorChat key={lesson.id} lessonId={lesson.id} compact />
+          </section>
         </>
       ) : (
         <p className="mt-8 text-muted-foreground">Esta lección requiere tu inscripción de $500 MXN por trimestre.</p>
       )}
     </main>
   );
+}
+
+function NextLink({ id }: { id: string }) {
+  const i = ALL_LESSONS.findIndex((l) => l.id === id);
+  const next = ALL_LESSONS[i + 1];
+  if (!next) return null;
+  return <Link to="/curso/$lessonId" params={{ lessonId: next.id }} className="ml-4 text-sm text-lavender">Siguiente: {next.title} →</Link>;
 }
