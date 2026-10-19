@@ -14,7 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { supabase } from "@/integrations/supabase/client";
 import { Toaster } from "@/components/ui/sonner";
-import { SiteHeader } from "@/components/SiteHeader";
+import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 
 function NotFoundComponent() {
   return (
@@ -81,14 +81,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Sonora IA — Curso para crear música con IA" },
-      { name: "description", content: "Curso completo y práctico para crear canciones con inteligencia artificial." },
+      { title: "Sonora IA — Real del Monte Tecnológico" },
+      { name: "description", content: "Curso completo y práctico para crear canciones con inteligencia artificial, con audio y tutora IA." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", type: "image/png", href: "/favicon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -133,6 +133,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <SiteHeader />
       <Outlet />
+      <SiteFooter />
       <Toaster />
     </QueryClientProvider>
   );
