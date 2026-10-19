@@ -14,6 +14,8 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
+import { Route as AuthenticatedTutorRouteImport } from './routes/_authenticated/tutor'
+import { Route as ApiTutorRouteImport } from './routes/api/tutor'
 import { Route as AuthenticatedCursoIndexRouteImport } from './routes/_authenticated/curso.index'
 import { Route as AuthenticatedCursoLessonIdRouteImport } from './routes/_authenticated/curso.$lessonId'
 
@@ -41,6 +43,16 @@ const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
   path: '/perfil',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTutorRoute = AuthenticatedTutorRouteImport.update({
+  id: '/tutor',
+  path: '/tutor',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const ApiTutorRoute = ApiTutorRouteImport.update({
+  id: '/api/tutor',
+  path: '/api/tutor',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedCursoIndexRoute = AuthenticatedCursoIndexRouteImport.update({
   id: '/curso/',
   path: '/curso/',
@@ -58,6 +70,8 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/perfil': typeof AuthenticatedPerfilRoute
+  '/tutor': typeof AuthenticatedTutorRoute
+  '/api/tutor': typeof ApiTutorRoute
   '/curso/$lessonId': typeof AuthenticatedCursoLessonIdRoute
   '/curso/': typeof AuthenticatedCursoIndexRoute
 }
@@ -66,6 +80,8 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/perfil': typeof AuthenticatedPerfilRoute
+  '/tutor': typeof AuthenticatedTutorRoute
+  '/api/tutor': typeof ApiTutorRoute
   '/curso/$lessonId': typeof AuthenticatedCursoLessonIdRoute
   '/curso': typeof AuthenticatedCursoIndexRoute
 }
@@ -76,6 +92,8 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
+  '/_authenticated/tutor': typeof AuthenticatedTutorRoute
+  '/api/tutor': typeof ApiTutorRoute
   '/_authenticated/curso/$lessonId': typeof AuthenticatedCursoLessonIdRoute
   '/_authenticated/curso/': typeof AuthenticatedCursoIndexRoute
 }
@@ -86,6 +104,8 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/perfil'
+    | '/tutor'
+    | '/api/tutor'
     | '/curso/$lessonId'
     | '/curso/'
   fileRoutesByTo: FileRoutesByTo
@@ -94,6 +114,8 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/perfil'
+    | '/tutor'
+    | '/api/tutor'
     | '/curso/$lessonId'
     | '/curso'
   id:
@@ -103,6 +125,8 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/_authenticated/perfil'
+    | '/_authenticated/tutor'
+    | '/api/tutor'
     | '/_authenticated/curso/$lessonId'
     | '/_authenticated/curso/'
   fileRoutesById: FileRoutesById
@@ -112,6 +136,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  ApiTutorRoute: typeof ApiTutorRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -151,6 +176,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPerfilRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/tutor': {
+      id: '/_authenticated/tutor'
+      path: '/tutor'
+      fullPath: '/tutor'
+      preLoaderRoute: typeof AuthenticatedTutorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/tutor': {
+      id: '/api/tutor'
+      path: '/api/tutor'
+      fullPath: '/api/tutor'
+      preLoaderRoute: typeof ApiTutorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/curso/': {
       id: '/_authenticated/curso/'
       path: '/curso'
@@ -170,12 +209,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
+  AuthenticatedTutorRoute: typeof AuthenticatedTutorRoute
   AuthenticatedCursoLessonIdRoute: typeof AuthenticatedCursoLessonIdRoute
   AuthenticatedCursoIndexRoute: typeof AuthenticatedCursoIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
+  AuthenticatedTutorRoute: AuthenticatedTutorRoute,
   AuthenticatedCursoLessonIdRoute: AuthenticatedCursoLessonIdRoute,
   AuthenticatedCursoIndexRoute: AuthenticatedCursoIndexRoute,
 }
@@ -188,6 +229,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  ApiTutorRoute: ApiTutorRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
