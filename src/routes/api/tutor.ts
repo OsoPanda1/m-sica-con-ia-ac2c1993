@@ -16,13 +16,13 @@ export const Route = createFileRoute("/api/tutor")({
       POST: async ({ request }) => {
         const token = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
         if (!token) return new Response("No autorizado", { status: 401 });
-        const sb = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PUBLISHABLE_KEY!, {
+        const sb = createClient(process.env['SUPABASE_URL']!, process.env['SUPABASE_PUBLISHABLE_KEY']!, {
           auth: { persistSession: false },
         });
         const { data: u } = await sb.auth.getUser(token);
         if (!u.user) return new Response("No autorizado", { status: 401 });
 
-        const apiKey = process.env.LOVABLE_API_KEY;
+        const apiKey = process.env['LOVABLE_API_KEY'];
         if (!apiKey) return new Response("IA no configurada", { status: 500 });
 
         const body = (await request.json()) as { messages: UIMessage[]; lessonId?: string };
