@@ -8,6 +8,13 @@
       "when": 1792379267513,
       "tag": "0000_course_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792458577574,
+      "tag": "0001_music_lab_projects",
+      "breakpoints": true
     }
   ]
 }

@@ -1,0 +1,33 @@
+import { z } from "zod";
+
+export type Genre = { id: string; name: string; family: string; bpm: number; groove: string; instruments: string; arrangement: string };
+export const GENRES: Genre[] = [
+  { id: "salsa", name: "Salsa", family: "Latinos", bpm: 180, groove: "clave 2-3, tumbao de bajo y montuno de piano", instruments: "congas, timbales, bongó, piano y metales", arrangement: "introducción de metales, verso, coro-pregón, mambo y cierre de banda" },
+  { id: "cumbia", name: "Cumbia", family: "Latinos", bpm: 96, groove: "pulso binario de cumbia, güiro constante y bajo sincopado", instruments: "güiro, congas, acordeón y bajo eléctrico", arrangement: "intro instrumental, verso, coro repetible, interludio y coro final" },
+  { id: "regional", name: "Regional mexicano", family: "Latinos", bpm: 112, groove: "polca norteña en 2/4 con acentos marcados", instruments: "acordeón, bajo sexto, bajo eléctrico y batería", arrangement: "entrada de acordeón, versos narrativos, coro y respuesta instrumental" },
+  { id: "reggaeton", name: "Reggaetón", family: "Latinos", bpm: 94, groove: "dembow sincopado, kick profundo y caja seca", instruments: "sub-bajo, percusión digital, sintetizador pluck y pads", arrangement: "intro corta, verso rítmico, pre-coro, hook y breakdown" },
+  { id: "balada", name: "Balada pop", family: "Pop", bpm: 78, groove: "pulso lento en 4/4 con crecimiento gradual", instruments: "piano, guitarra limpia, bajo suave y cuerdas", arrangement: "verso íntimo, pre-coro ascendente y último coro amplio" },
+  { id: "mariachi", name: "Mariachi", family: "Latinos", bpm: 100, groove: "ranchera en 3/4, acompañamiento de vals", instruments: "vihuela, guitarrón, violines y trompetas", arrangement: "introducción de trompetas, verso expresivo, coro y cierre resuelto" },
+  { id: "sonidera", name: "Cumbia sonidera", family: "Latinos", bpm: 94, groove: "cumbia bailable con bajo repetitivo y güiro", instruments: "teclados, sintetizadores, congas, güiro y bajo", arrangement: "intro de teclado, verso, coro, break de percusión y coro final" },
+  { id: "techno", name: "Techno", family: "Electrónica", bpm: 136, groove: "bombo a negras, hi-hat a contratiempo y secuencia hipnótica", instruments: "kick electrónico, bajo sintetizado, secuenciador y texturas industriales", arrangement: "capas progresivas, breakdown, build-up, drop y outro para mezcla" },
+  { id: "rock", name: "Rock", family: "Bandas", bpm: 126, groove: "backbeat en 4/4 con caja en 2 y 4", instruments: "guitarras eléctricas, bajo y batería acústica", arrangement: "riff inicial, versos contenidos, coros abiertos y solo breve" },
+  { id: "metal", name: "Metal", family: "Bandas", bpm: 160, groove: "doble bombo y riffs palm-muted precisos", instruments: "guitarras distorsionadas, bajo y batería de doble pedal", arrangement: "riff, verso intenso, coro melódico, breakdown y cierre contundente" },
+  { id: "rap", name: "Rap", family: "Urbano", bpm: 88, groove: "boom bap con caja marcada y espacio para la palabra", instruments: "batería sampleada original, bajo y piano", arrangement: "intro, 16 compases de rap, hook de 8 compases y segundo verso" },
+  { id: "hiphop", name: "Hip-hop", family: "Urbano", bpm: 92, groove: "groove relajado con swing y bajo redondo", instruments: "batería, Rhodes, bajo y texturas de vinilo originales", arrangement: "intro, verso con flow, hook cantado y puente instrumental" },
+  { id: "pop", name: "Pop", family: "Pop", bpm: 116, groove: "4/4 bailable con percusión limpia", instruments: "sintetizadores brillantes, guitarra, bajo y batería", arrangement: "verso, pre-coro, hook memorable y puente contrastante" },
+  { id: "bachata", name: "Bachata", family: "Latinos", bpm: 128, groove: "bongó y güira con acento de bachata", instruments: "requinto, guitarra rítmica, bajo, bongó y güira", arrangement: "intro de requinto, verso romántico, coro y solo" },
+  { id: "merengue", name: "Merengue", family: "Latinos", bpm: 150, groove: "tambora y güira en pulso binario", instruments: "tambora, güira, saxofones, piano y bajo", arrangement: "intro, verso, coro de respuesta y mambo de metales" },
+  { id: "banda", name: "Banda sinaloense", family: "Latinos", bpm: 120, groove: "ritmo de banda en 2/4", instruments: "tuba, clarinetes, trompetas, trombones y tambora", arrangement: "entrada de metales, verso narrativo, coro y cierre de banda" },
+  { id: "trap", name: "Trap", family: "Urbano", bpm: 140, groove: "half-time con hi-hats subdivididos y 808", instruments: "808, caja digital, hi-hats y pads oscuros", arrangement: "intro, hook, verso, hook y outro" },
+  { id: "house", name: "House", family: "Electrónica", bpm: 124, groove: "four-on-the-floor y hi-hat abierto a contratiempo", instruments: "piano house, bajo, kick y clap", arrangement: "intro para DJ, verso, breakdown, drop y outro" },
+  { id: "jazz", name: "Jazz", family: "Instrumental", bpm: 110, groove: "swing moderado con ride y contrabajo walking", instruments: "piano, contrabajo, batería con escobillas y saxofón", arrangement: "tema, improvisación, retorno al tema y cierre" },
+  { id: "rnb", name: "R&B / Soul", family: "Pop", bpm: 82, groove: "batería relajada y bajo sincopado", instruments: "Rhodes, bajo, guitarra limpia y batería", arrangement: "verso íntimo, coro con armonías y puente de contraste" },
+  { id: "lofi", name: "Lo-fi", family: "Instrumental", bpm: 72, groove: "hip-hop lento con swing ligero", instruments: "piano suave, batería apagada, bajo y ambiente", arrangement: "motivo instrumental, variación de textura y cierre suave" },
+  { id: "cinematic", name: "Cinemática", family: "Instrumental", bpm: 90, groove: "pulso orquestal progresivo", instruments: "cuerdas, piano, metales y percusión orquestal", arrangement: "apertura íntima, desarrollo, clímax y resolución" },
+];
+export const composerSchema = z.object({ title: z.string().trim().min(1).max(120), genre: z.string().max(80), bpm: z.coerce.number().int().min(40).max(220), mood: z.string().trim().min(1).max(200), voice: z.string().max(200), theme: z.string().trim().min(1).max(1000), lyrics: z.string().max(6000), notes: z.string().max(3000) });
+export function buildPrompt(input: z.infer<typeof composerSchema>) {
+  const genre = GENRES.find((g) => g.id === input.genre);
+  if (!genre) throw new Error("Género no válido");
+  return `${genre.name}, ${input.bpm} BPM. Ritmo: ${genre.groove}. Instrumentos: ${genre.instruments}. Emoción: ${input.mood}. Voz: ${input.voice}. Tema: ${input.theme}. Estructura: ${genre.arrangement}. Mezcla equilibrada, voz clara, contraste entre secciones y final definido. Canción original, sin imitar voces de personas reales.`;
+}

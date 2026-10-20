@@ -48,7 +48,7 @@ export function TutorChat({ lessonId, compact }: { lessonId?: string; compact?: 
           <div className="space-y-2">
             <p className="text-sm text-muted-foreground">Pregúntame lo que quieras sobre {lessonId ? "esta lección" : "el curso"}.</p>
             {SUGGESTIONS.map((s) => (
-              <button key={s} onClick={() => send(s)} className="block w-full rounded-xl border border-border bg-card px-3 py-2 text-left text-sm hover:border-lavender">{s}</button>
+              <Button variant="outline" key={s} onClick={() => send(s)} className="h-auto w-full justify-start whitespace-normal text-left">{s}</Button>
             ))}
           </div>
         )}
@@ -65,7 +65,7 @@ export function TutorChat({ lessonId, compact }: { lessonId?: string; compact?: 
         <div ref={end} />
       </div>
       <form className="flex items-end gap-2 border-t border-border p-3" onSubmit={(e) => { e.preventDefault(); send(input); }}>
-        <textarea ref={ref} value={input} onChange={(e) => setInput(e.target.value)} rows={2} placeholder="Escribe tu pregunta…"
+        <textarea ref={ref} value={input} maxLength={6000} onChange={(e) => setInput(e.target.value)} rows={2} placeholder="Escribe tu pregunta…"
           onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(input); } }}
           className="flex-1 resize-none rounded-xl border border-input bg-background px-3 py-2 text-sm outline-none focus:border-ring" />
         {busy ? (

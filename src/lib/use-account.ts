@@ -1,5 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { ALL_LESSONS } from "./course";
 
 export const accountQuery = queryOptions({
   queryKey: ["account"],
@@ -12,6 +13,7 @@ export const accountQuery = queryOptions({
       supabase.from("lesson_progress").select("lesson_id").eq("user_id", user.id),
       supabase.from("enrollments").select("paid_until").eq("user_id", user.id).maybeSingle(),
     ]);
+    for (const result of [p, prog, enr]) if (result.error) throw result.error;
     let avatarSigned: string | null = null;
     if (p.data?.avatar_url) {
       const s = await supabase.storage.from("avatars").createSignedUrl(p.data.avatar_url, 3600);
@@ -21,7 +23,7 @@ export const accountQuery = queryOptions({
       user,
       profile: p.data,
       avatarSigned,
-      completed: new Set((prog.data ?? []).map((r) => r.lesson_id)),
+      completed: new Set((prog.data ?? []).map((r) => r.lesson_id).filter((id) => ALL_LESSONS.some((lesson) => lesson.id === id))),
       paidUntil: enr.data?.paid_until ?? null,
     };
   },
