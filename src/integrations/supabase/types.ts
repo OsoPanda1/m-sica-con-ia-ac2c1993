@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_service_state: {
+        Row: {
+          created_at: string
+          reason: string
+          service: string
+          status: number
+        }
+        Insert: {
+          created_at?: string
+          reason: string
+          service: string
+          status: number
+        }
+        Update: {
+          created_at?: string
+          reason?: string
+          service?: string
+          status?: number
+        }
+        Relationships: []
+      }
       enrollments: {
         Row: {
           created_at: string
@@ -46,6 +67,51 @@ export type Database = {
         Update: {
           completed_at?: string
           lesson_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      music_projects: {
+        Row: {
+          audio_path: string | null
+          bpm: number
+          created_at: string
+          error_message: string | null
+          genre: string
+          id: string
+          lyrics: string
+          notes: string
+          prompt: string
+          status: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          audio_path?: string | null
+          bpm: number
+          created_at?: string
+          error_message?: string | null
+          genre: string
+          id?: string
+          lyrics?: string
+          notes?: string
+          prompt: string
+          status?: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          audio_path?: string | null
+          bpm?: number
+          created_at?: string
+          error_message?: string | null
+          genre?: string
+          id?: string
+          lyrics?: string
+          notes?: string
+          prompt?: string
+          status?: string
+          title?: string
           user_id?: string
         }
         Relationships: []

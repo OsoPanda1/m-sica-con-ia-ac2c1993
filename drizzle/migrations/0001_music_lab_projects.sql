@@ -1,0 +1,10 @@
+CREATE TABLE public.music_projects (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL, title text NOT NULL CHECK (char_length(title) BETWEEN 1 AND 120), genre text NOT NULL CHECK (char_length(genre) BETWEEN 1 AND 80), bpm integer NOT NULL CHECK (bpm BETWEEN 40 AND 220), prompt text NOT NULL CHECK (char_length(prompt) BETWEEN 1 AND 6000), lyrics text NOT NULL DEFAULT '' CHECK (char_length(lyrics) <= 6000), notes text NOT NULL DEFAULT '' CHECK (char_length(notes) <= 3000), audio_path text, status text NOT NULL DEFAULT 'draft' CHECK (status IN ('draft','composing','ready','failed','blocked')), error_message text, created_at timestamptz NOT NULL DEFAULT now());
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.music_projects TO authenticated;
+GRANT ALL ON public.music_projects TO service_role;
+ALTER TABLE public.music_projects ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Read own music" ON public.music_projects FOR SELECT TO authenticated USING (auth.uid() = user_id);
+CREATE POLICY "Create own drafts" ON public.music_projects FOR INSERT TO authenticated WITH CHECK (auth.uid() = user_id AND status = 'draft' AND audio_path IS NULL);
+CREATE POLICY "Delete own drafts" ON public.music_projects FOR DELETE TO authenticated USING (auth.uid() = user_id AND status <> 'composing');
+CREATE TABLE public.ai_service_state (service text PRIMARY KEY, status integer NOT NULL, reason text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
+GRANT ALL ON public.ai_service_state TO service_role;
+ALTER TABLE public.ai_service_state ENABLE ROW LEVEL SECURITY;

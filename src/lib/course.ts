@@ -1,3 +1,5 @@
+import { enrichLesson } from "./course-enrichment";
+
 export type Block =
   | { type: "p"; text: string }
   | { type: "h"; text: string }
@@ -384,13 +386,13 @@ export const COURSE: Module[] = [
   },
 ];
 
-export const ALL_LESSONS = COURSE.flatMap((m) => m.lessons.map((l) => ({ ...l, moduleId: m.id, moduleNumber: m.number })));
+export const ALL_LESSONS = COURSE.flatMap((m) => m.lessons.map((l) => ({ ...enrichLesson(l), moduleId: m.id, moduleNumber: m.number })));
 export const findLesson = (id: string) => ALL_LESSONS.find((l) => l.id === id);
 
 export type Badge = { id: string; name: string; description: string; earned: boolean };
 
 export function computeBadges(completed: Set<string>): Badge[] {
-  const moduleDone = (id: string) => COURSE.find((m) => m.id === id)!.lessons.every((l) => completed.has(l.id));
+  const moduleDone = (id: string) => COURSE.find((m) => m.id === id)?.lessons.every((l) => completed.has(l.id)) ?? false;
   const modulesDone = COURSE.filter((m) => moduleDone(m.id)).length;
   return [
     { id: "first", name: "Primer acorde", description: "Completa tu primera lección", earned: completed.size >= 1 },
