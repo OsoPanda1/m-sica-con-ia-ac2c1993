@@ -63,7 +63,7 @@ function LessonPage() {
       ? supabase.from("lesson_progress").delete().eq("user_id", data.user.id).eq("lesson_id", lessonId)
       : supabase.from("lesson_progress").insert({ user_id: data.user.id, lesson_id: lessonId });
     const { error } = await q;
-    if (error) return toast.error("No se pudo guardar");
+    if (error) { toast.error("No se pudo guardar"); return; }
     qc.invalidateQueries({ queryKey: ["account"] });
   }
 
