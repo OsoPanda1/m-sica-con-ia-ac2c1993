@@ -5,7 +5,7 @@ import { Copy, ArrowUpRight } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/plantillas")({
-  validateSearch: (s: Record<string, unknown>) => ({ q: typeof s.q === "string" ? s.q.slice(0, 80) : "" }),
+  validateSearch: (s: Record<string, unknown>) => ({ q: typeof s["q"] === "string" ? s["q"].slice(0, 80) : "" }),
   head: () => ({ meta: [{ title: "Biblioteca de ritmos y prompts — Sonora IA" }, { name: "description", content: "Plantillas de salsa, cumbia, mariachi, reggaetón, rock, electrónica y más." }, { property: "og:title", content: "Biblioteca musical — Sonora IA" }, { property: "og:description", content: "Dirección musical y prompts para 22 géneros." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Templates,
 });

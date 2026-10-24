@@ -27,7 +27,7 @@ export const Route = createFileRoute("/api/tutor")({
         const apiKey = process.env['LOVABLE_API_KEY'];
         if (!apiKey) return new Response("IA no configurada", { status: 500 });
 
-        let body: { messages: UIMessage[]; lessonId?: string };
+        let body: { messages: UIMessage[]; lessonId?: string | undefined };
         try {
           const parsed = z.object({ lessonId: z.string().max(40).optional(), messages: z.array(z.object({ id: z.string().max(200), role: z.enum(["user", "assistant"]), parts: z.array(z.object({ type: z.literal("text"), text: z.string().max(12000) })).max(30) })).min(1).max(30) }).parse(await request.json());
           body = parsed;
